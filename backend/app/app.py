@@ -50,12 +50,15 @@ def index():
 def post_location():
     data = request.get_json()
 
+    if not data:
+        return jsonify(success=False, message="bad request")
+
     try:
         uuid = data["uuid"]
-        latitude = data["latitude"]
-        longitude = data["longitude"]
-    except KeyError as err:
-        return jsonify(success=False, message=err)
+        latitude = data["lat"]
+        longitude = data["lon"]
+    except KeyError:
+        return jsonify(success=False, message="bad request")
     else:
         data = {
             "uuid": uuid,
@@ -68,7 +71,7 @@ def post_location():
         geolocation = db.collection
         post_location = geolocation.insert_one(data).inserted_id
 
-    return jsonify(success=True, id=post_location)
+    return jsonify(success=True)
 
 
 @socketio.on("connect", namespace="/tile")
