@@ -23,7 +23,6 @@ socketio = SocketIO(app)
 
 # mongo db conn
 dbconn = os.getenv("DB_CONN", default="mongodb://mongo:27017/")
-print(db_conn)
 db_client = MongoClient(dbconn)
 # both will be created automatically when the first document is inserted
 db = db_client[os.getenv("DB_NAME", default="meteocool")]
